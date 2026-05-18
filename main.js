@@ -160,45 +160,6 @@
     divObs.observe(divisorEl);
   }
 
-  // PARTÍCULAS DOURADAS SUBINDO
-  function iniciarParticulas() {
-    setInterval(function () {
-      const p = document.createElement('div');
-      p.className = 'div-particula';
-
-      const x   = (Math.random() - 0.5) * 80;
-      const dy  = -(18 + Math.random() * 16);
-      const dur = 900 + Math.random() * 600;
-
-      p.style.cssText = `
-        left: calc(50% + ${x}px);
-        top: 50%;
-        transform: translateY(0);
-        opacity: 0;
-      `;
-
-      divisorEl.appendChild(p);
-
-      let start = null;
-
-      function frame(ts) {
-        if (!start) start = ts;
-        const prog = Math.min((ts - start) / dur, 1);
-        const op   = prog < 0.3 ? prog / 0.3 : 1 - (prog - 0.3) / 0.7;
-        p.style.transform = `translateY(${dy * prog}px)`;
-        p.style.opacity   = op;
-        if (prog < 1) {
-          requestAnimationFrame(frame);
-        } else {
-          p.remove();
-        }
-      }
-
-      requestAnimationFrame(frame);
-
-    }, 320);
-  }
-
 
   /* ==========================================
      SESSÃO 2 — FRASE & FOTO
@@ -355,7 +316,7 @@ btnCarrinho.addEventListener('click', function () {
 /* ==========================================
    SESSÃO 5 — CTA FINAL
    ========================================== */
-   
+
 // BOTÃO WHATSAPP
 const ctaWpp = document.getElementById('ctaWpp');
 if (ctaWpp) ctaWpp.setAttribute('href', WHATS_URL);

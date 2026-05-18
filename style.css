@@ -417,7 +417,17 @@ nav.scrolled .nav-hamburger span,
   justify-content: center;
   background: var(--verde-dark);
   padding: 0 var(--px);
-  gap: 0;
+  gap: 1rem;
+}
+
+.divisor-sessao .div-esq {
+  background: linear-gradient(to right, transparent, var(--dourado));
+  opacity: 0.5;
+}
+
+.divisor-sessao .div-dir {
+  background: linear-gradient(to left, transparent, var(--dourado));
+  opacity: 0.5;
 }
 
 .divisor-linha {
@@ -453,16 +463,6 @@ nav.scrolled .nav-hamburger span,
 @keyframes float-simbolo {
   0%, 100% { transform: translateY(0); }
   50%       { transform: translateY(-6px); }
-}
-
-/* PARTÍCULA */
-.div-particula {
-  position: absolute;
-  width: 3px;
-  height: 3px;
-  background: var(--dourado);
-  border-radius: 50%;
-  pointer-events: none;
 }
 
 
@@ -696,8 +696,8 @@ nav.scrolled .nav-hamburger span,
 
 /* LABEL DE CATEGORIA */
 .produtos-categoria {
-  padding: 0 var(--px);
-  margin: 3rem 0 1.5rem;
+  padding: 1.5rem var(--px) 1.5rem;
+  background: var(--verde-dark);
 }
 
 .categoria-label {
@@ -707,20 +707,27 @@ nav.scrolled .nav-hamburger span,
 }
 
 .categoria-label span {
-  font-size: 0.72rem;
+  font-size: 0.68rem;
   font-weight: 700;
-  letter-spacing: 0.2em;
+  letter-spacing: 0.22em;
   text-transform: uppercase;
-  color: var(--verde);
+  color: var(--dourado);
   white-space: nowrap;
 }
 
 .categoria-label .divisor-linha {
   flex: 1;
   height: 1px;
-  background: var(--dourado);
-  opacity: 0.4;
+  opacity: 0.5;
   transform: scaleX(1);
+}
+
+.categoria-label .divisor-linha.left {
+  background: linear-gradient(to right, transparent, var(--dourado));
+}
+
+.categoria-label .divisor-linha.right {
+  background: linear-gradient(to left, transparent, var(--dourado));
 }
 
 /* GRID */
