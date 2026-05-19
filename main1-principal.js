@@ -26,6 +26,7 @@
      ========================================== */
 
   let revealed = false;
+  let fallbackTimer;
 
   // GARANTE QUE O REVEAL SÓ EXECUTA UMA VEZ
   function revealMain() {
@@ -34,14 +35,13 @@
 
     clearTimeout(fallbackTimer);
 
-    // VOLTA AO TOPO — GARANTE QUE O HERO APARECE PRIMEIRO
-    window.scrollTo(0, 0);
-
     intro.classList.add('fade-out');
     main.classList.add('visible');
     document.body.style.overflow = '';
 
-    // AGUARDA O FADE-IN DO MAIN ANTES DE REGISTRAR OS OBSERVERS
+    // SCROLL IMEDIATO — SEM ANIMAÇÃO
+    window.scrollTo({ top: 0, behavior: 'instant' });
+
     setTimeout(function () {
       initReveal();
       initDivisor();
@@ -51,22 +51,28 @@
   // BLOQUEIA SCROLL ENQUANTO O INTRO TOCA
   document.body.style.overflow = 'hidden';
 
-  // DISPARA AO FIM DO VÍDEO — CAMINHO NORMAL
-  video.addEventListener('ended', revealMain);
+  // PULA O INTRO SE VIER DE OUTRA PÁGINA
+  if (document.referrer && !document.referrer.includes('index1-principal.html')) {
+    intro.style.display = 'none';
+    main.classList.add('visible');
+    document.body.style.overflow = '';
+    revealed = true;
+    setTimeout(function () {
+      document.getElementById('hero').scrollIntoView({ behavior: 'instant' });
+      initReveal();
+      initDivisor();
+    }, 50);
+  } else {
+    video.addEventListener('ended', revealMain);
+    video.addEventListener('error', revealMain);
+    video.addEventListener('canplay', function () {
+      if (video.paused && !video.autoplay) revealMain();
+    });
+    const VIDEO_DURATION_MS = 8000;
+    fallbackTimer = setTimeout(revealMain, VIDEO_DURATION_MS);
+  }
 
-  // FALLBACK: REVELA SE O VÍDEO DER ERRO
-  video.addEventListener('error', revealMain);
-
-  // FALLBACK: SE O BROWSER BLOQUEOU O AUTOPLAY
-  video.addEventListener('canplay', function () {
-    if (video.paused && !video.autoplay) revealMain();
-  });
-
-  // FALLBACK FINAL — AJUSTE VIDEO_DURATION_MS PARA A DURAÇÃO REAL DO VÍDEO
-  const VIDEO_DURATION_MS = 8000;
-  const fallbackTimer = setTimeout(revealMain, VIDEO_DURATION_MS);
-
-
+  
   /* ==========================================
      REVEAL — APARECE GRADATIVAMENTE AO SCROLL
      ========================================== */
