@@ -1,3 +1,4 @@
+
 /* ==========================================
    DI MALLU — LÓGICA DO SITE
    ========================================== */
@@ -5,7 +6,11 @@
 (function () {
   'use strict';
 
-  /* SELETORES GLOBAIS */
+
+  /* ==========================================
+     SELETORES GLOBAIS
+     ========================================== */
+
   const intro     = document.getElementById('intro');
   const video     = document.getElementById('intro-video');
   const main      = document.getElementById('main-content');
@@ -13,6 +18,7 @@
   const hamburger = document.getElementById('hamburger');
   const navLinks  = document.getElementById('nav-links');
   const navItems  = document.querySelectorAll('.nav-item');
+  const divisorEl = document.getElementById('divisor-sessao');
 
 
   /* ==========================================
@@ -28,14 +34,14 @@
 
     clearTimeout(fallbackTimer);
 
-    // VOLTA AO TOPO — GARANTE QUE A SESSÃO 1 (HERO) APARECE PRIMEIRO
+    // VOLTA AO TOPO — GARANTE QUE O HERO APARECE PRIMEIRO
     window.scrollTo(0, 0);
 
     intro.classList.add('fade-out');
     main.classList.add('visible');
     document.body.style.overflow = '';
 
-    // AGUARDA O FADE-IN DO MAIN TERMINAR ANTES DE OBSERVAR OS ELEMENTOS
+    // AGUARDA O FADE-IN DO MAIN ANTES DE REGISTRAR OS OBSERVERS
     setTimeout(function () {
       initReveal();
       initDivisor();
@@ -48,20 +54,20 @@
   // DISPARA AO FIM DO VÍDEO — CAMINHO NORMAL
   video.addEventListener('ended', revealMain);
 
-  // FALLBACK: REVELA SE O VÍDEO DER ERRO DE CARREGAMENTO
+  // FALLBACK: REVELA SE O VÍDEO DER ERRO
   video.addEventListener('error', revealMain);
 
-  // FALLBACK: SE O BROWSER BLOQUEOU O AUTOPLAY, REVELA NA HORA
+  // FALLBACK: SE O BROWSER BLOQUEOU O AUTOPLAY
   video.addEventListener('canplay', function () {
     if (video.paused && !video.autoplay) revealMain();
   });
 
-  // FALLBACK FINAL: AJUSTE VIDEO_DURATION_MS PARA A DURAÇÃO REAL DO VÍDEO
+  // FALLBACK FINAL — AJUSTE VIDEO_DURATION_MS PARA A DURAÇÃO REAL DO VÍDEO
   const VIDEO_DURATION_MS = 8000;
   const fallbackTimer = setTimeout(revealMain, VIDEO_DURATION_MS);
 
 
- /* ==========================================
+  /* ==========================================
      REVEAL — APARECE GRADATIVAMENTE AO SCROLL
      ========================================== */
 
@@ -83,7 +89,7 @@
       });
     }, {
       threshold: 0.08,                  // DISPARA CEDO — MELHOR PARA MOBILE
-      rootMargin: '0px 0px -20px 0px'  // MARGEM SUAVE
+      rootMargin: '0px 0px -20px 0px'
     });
 
     elements.forEach(function (el) { observer.observe(el); });
@@ -99,12 +105,14 @@
     navbar.classList.toggle('scrolled', window.scrollY > 50);
   }, { passive: true });
 
-  // HAMBURGUER — ABRE/FECHA MENU
+  // HAMBURGUER — ABRE/FECHA MENU E VOLTA AO TOPO AO ABRIR
   hamburger.addEventListener('click', function () {
     const isOpen = navLinks.classList.toggle('open');
     hamburger.classList.toggle('open', isOpen);
     hamburger.setAttribute('aria-expanded', isOpen);
     document.body.style.overflow = isOpen ? 'hidden' : '';
+
+    if (isOpen) window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
   // FECHA AO CLICAR EM UM ITEM
@@ -140,24 +148,20 @@
      SESSÃO 1 — HERO
      ========================================== */
 
-  /* DIVISOR — LINHA & PARTÍCULAS */
-  const divisorEl = document.getElementById('divisor-sessao');
-
-  // REGISTRA O OBSERVER SÓ APÓS O INTRO — EVITA DISPARAR ANTES DO SCROLL
+  // DIVISOR — ANIMA AS LINHAS AO ENTRAR NA VIEWPORT
   function initDivisor() {
     if (!divisorEl || !('IntersectionObserver' in window)) return;
 
-    const divObs = new IntersectionObserver(function (entries) {
+    const observer = new IntersectionObserver(function (entries) {
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           divisorEl.classList.add('animado');
-          iniciarParticulas();
-          divObs.unobserve(divisorEl);
+          observer.unobserve(divisorEl);
         }
       });
     }, { threshold: 0, rootMargin: '0px 0px -80px 0px' });
 
-    divObs.observe(divisorEl);
+    observer.observe(divisorEl);
   }
 
 
@@ -165,164 +169,161 @@
      SESSÃO 2 — FRASE & FOTO
      ========================================== */
 
-// SLIDESHOW KEN BURNS — TROCA A CADA 4S
-function initSlideshow() {
-  const slides = document.querySelectorAll('#slideshow .slide');
-  if (!slides.length) return;
+  // SLIDESHOW KEN BURNS — TROCA A CADA 4S
+  function initSlideshow() {
+    const slides = document.querySelectorAll('#slideshow .slide');
+    if (!slides.length) return;
 
-  let atual = 0;
+    let atual = 0;
 
-  setInterval(function () {
-    slides[atual].classList.remove('ativo');
-    atual = (atual + 1) % slides.length;
-    slides[atual].classList.add('ativo');
-  }, 4000);
-}
-
-initSlideshow();
-
-
-/* ==========================================
-   SESSÃO 3 — HISTÓRIA DA MARCA
-   ========================================== */
-
-// SLIDESHOW LATERAL — LOOP INFINITO
-function initHistoria() {
-  const track = document.getElementById('historiaTrack');
-  const dots  = document.querySelectorAll('.historia-dot');
-  if (!track) return;
-
-  const total = 3;
-  let atual = 0;
-  let bloqueado = false;
-
-  // CLONA OS SLIDES — CRIA EFEITO DE LOOP
-  const slides = Array.from(track.children);
-  slides.forEach(function (s) {
-    track.appendChild(s.cloneNode(true));
-  });
-
-  // AJUSTA LARGURA DO TRACK PARA 6 SLIDES
-  track.style.width = '600%';
-  track.querySelectorAll('.historia-slide').forEach(function (s) {
-    s.style.width = '16.666%';
-  });
-
-  function irPara(idx, animado) {
-    if (animado === false) {
-      track.style.transition = 'none';
-    } else {
-      track.style.transition = 'transform 0.7s cubic-bezier(0.77, 0, 0.175, 1)';
-    }
-    track.style.transform = `translateX(-${idx * 100 / 6}%)`;
-    dots.forEach(function (d) { d.classList.remove('on'); });
-    dots[idx % total].classList.add('on');
-    atual = idx;
+    setInterval(function () {
+      slides[atual].classList.remove('ativo');
+      atual = (atual + 1) % slides.length;
+      slides[atual].classList.add('ativo');
+    }, 4000);
   }
 
-  // QUANDO CHEGA NO CLONE, SALTA SEM ANIMAÇÃO PARA O ORIGINAL
-  track.addEventListener('transitionend', function () {
-    if (atual >= total) {
-      irPara(atual - total, false);
+  initSlideshow();
+
+
+  /* ==========================================
+     SESSÃO 3 — HISTÓRIA DA MARCA
+     ========================================== */
+
+  // SLIDESHOW LATERAL — LOOP INFINITO COM CLONES
+  function initHistoria() {
+    const track = document.getElementById('historiaTrack');
+    const dots  = document.querySelectorAll('.historia-dot');
+    if (!track) return;
+
+    const total     = 3;
+    let atual       = 0;
+    let bloqueado   = false;
+
+    // CLONA OS SLIDES PARA CRIAR EFEITO DE LOOP
+    Array.from(track.children).forEach(function (s) {
+      track.appendChild(s.cloneNode(true));
+    });
+
+    // AJUSTA LARGURA DO TRACK PARA 6 SLIDES (3 ORIGINAIS + 3 CLONES)
+    track.style.width = '600%';
+    track.querySelectorAll('.historia-slide').forEach(function (s) {
+      s.style.width = '16.666%';
+    });
+
+    function irPara(idx, animado) {
+      track.style.transition = animado === false
+        ? 'none'
+        : 'transform 0.7s cubic-bezier(0.77, 0, 0.175, 1)';
+
+      track.style.transform = `translateX(-${idx * 100 / 6}%)`;
+
+      dots.forEach(function (d) { d.classList.remove('on'); });
+      dots[idx % total].classList.add('on');
+      atual = idx;
     }
-    bloqueado = false;
+
+    // AO CHEGAR NO CLONE, SALTA SEM ANIMAÇÃO PARA O ORIGINAL
+    track.addEventListener('transitionend', function () {
+      if (atual >= total) irPara(atual - total, false);
+      bloqueado = false;
+    });
+
+    // CLIQUE NOS DOTS
+    dots.forEach(function (d, i) {
+      d.addEventListener('click', function () {
+        if (!bloqueado) irPara(i);
+      });
+    });
+
+    // AUTOPLAY
+    setInterval(function () {
+      if (bloqueado) return;
+      bloqueado = true;
+      irPara(atual + 1);
+    }, 5000);
+
+    irPara(0, false);
+  }
+
+  initHistoria();
+
+
+  /* ==========================================
+     SESSÃO 4 — PRODUTOS
+     ========================================== */
+
+  // MARQUEE — POPULA O TRACK COM ITENS DUPLICADOS
+  const marqueeItens = [
+    'Enviamos para todo o Brasil',
+    'Peças exclusivas e limitadas',
+    'Atendimento via WhatsApp',
+    'Sua compra 100% segura e protegida',
+    'Banho premium de alta durabilidade',
+    'Tecnologia antialérgica',
+    'Garantia',
+  ];
+
+  const marqueeTrack = document.getElementById('marqueeTrack');
+  [...marqueeItens, ...marqueeItens].forEach(function (texto) {
+    const item = document.createElement('span');
+    item.className = 'marquee-item';
+    item.innerHTML = `<span>${texto}</span><img src="./ARQUIVOS/simbolo-logo.png" alt="" aria-hidden="true" class="marquee-logo">`;
+    marqueeTrack.appendChild(item);
   });
 
-  // CLIQUE NOS DOTS
-  dots.forEach(function (d, i) {
-    d.addEventListener('click', function () {
-      if (!bloqueado) irPara(i);
+  // CARRINHO — ADICIONA / REMOVE PRODUTO E ATUALIZA BADGE
+  let carrinho          = [];
+  const btnCarrinho     = document.getElementById('btnVerCarrinho');
+  const badge           = document.getElementById('carrinhoBadge');
+
+  function atualizarBadge() {
+    badge.textContent = carrinho.length;
+  }
+
+  document.querySelectorAll('.produto-btn').forEach(function (btn) {
+    btn.addEventListener('click', function () {
+      const adicionado = btn.dataset.adicionado === 'true';
+
+      if (!adicionado) {
+        carrinho.push({
+          nome:  btn.getAttribute('data-nome'),
+          preco: btn.getAttribute('data-preco'),
+          btn:   btn,
+        });
+        btn.dataset.adicionado = 'true';
+        btn.textContent        = '✓ 1';
+        btn.style.background   = '#C9A96E';
+        btn.style.color        = '#2C2215';
+      } else {
+        carrinho = carrinho.filter(function (p) { return p.btn !== btn; });
+        btn.dataset.adicionado = 'false';
+        btn.textContent        = '+ Adicionar';
+        btn.style.background   = '';
+        btn.style.color        = '';
+      }
+
+      atualizarBadge();
     });
   });
 
-  // AUTO PLAY
-  setInterval(function () {
-    if (bloqueado) return;
-    bloqueado = true;
-    irPara(atual + 1);
-  }, 5000);
-
-  irPara(0, false);
-}
-
-initHistoria();
-
-
-/* ==========================================
-   SESSÃO 4 — PRODUTOS
-   ========================================== */
-
-   // CARROSSEL
-const marqueeItens = [
-  "Enviamos para todo o Brasil",
-  "Peças exclusivas e limitadas",
-  "Atendimento via WhatsApp",
-  "Sua compra 100% segura e protegida",
-  "Banho premium de alta durabilidade",
-  "Tecnologia antialérgica",
-  "Garantia",
-];
-
-const track = document.getElementById('marqueeTrack');
-[...marqueeItens, ...marqueeItens].forEach(texto => {
-  const item = document.createElement('span');
-  item.className = 'marquee-item';
-  item.innerHTML = `<span>${texto}</span><img src="./ARQUIVOS/simbolo-logo.png" alt="" aria-hidden="true" class="marquee-logo">`;
-  track.appendChild(item);
-});
-
-// CARRINHO
-let carrinho = [];
-const btnCarrinho = document.getElementById('btnVerCarrinho');
-const badge       = document.getElementById('carrinhoBadge');
-
-function atualizarBadge() {
-  badge.textContent = carrinho.length;
-}
-
-document.querySelectorAll('.produto-btn').forEach(function (btn) {
-  btn.addEventListener('click', function () {
-    const adicionado = btn.dataset.adicionado === 'true';
-
-    if (!adicionado) {
-      // ADICIONA
-      carrinho.push({
-        nome:  btn.getAttribute('data-nome'),
-        preco: btn.getAttribute('data-preco'),
-        btn:   btn
-      });
-      btn.dataset.adicionado   = 'true';
-      btn.textContent          = '✓ 1';
-      btn.style.background     = '#C9A96E';
-      btn.style.color          = '#2C2215';
-    } else {
-      // REMOVE
-      carrinho = carrinho.filter(function (p) { return p.btn !== btn; });
-      btn.dataset.adicionado   = 'false';
-      btn.textContent          = '+ Adicionar';
-      btn.style.background     = '';
-      btn.style.color          = '';
-    }
-
-    atualizarBadge();
+  btnCarrinho.addEventListener('click', function () {
+    this.classList.toggle('ativo');
   });
-});
-
-btnCarrinho.addEventListener('click', function () {
-  this.classList.toggle('ativo');
-});
 
 
-/* ==========================================
-   SESSÃO 5 — CTA FINAL
-   ========================================== */
+  /* ==========================================
+     SESSÃO 5 — CTA FINAL
+     ========================================== */
 
-// BOTÃO WHATSAPP
-const ctaWpp = document.getElementById('ctaWpp');
-if (ctaWpp) ctaWpp.setAttribute('href', WHATS_URL);
-ctaWpp.addEventListener('click', function () {
-  window.open(WHATS_URL, '_blank');
-});
+  // BOTÃO WHATSAPP
+  const ctaWpp = document.getElementById('ctaWpp');
+  if (ctaWpp) {
+    ctaWpp.setAttribute('href', WHATS_URL);
+    ctaWpp.addEventListener('click', function () {
+      window.open(WHATS_URL, '_blank');
+    });
+  }
 
 
 })();
