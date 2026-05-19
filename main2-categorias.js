@@ -73,20 +73,21 @@
   }
 
 
- /* ==========================================
-   ABAS — SOME AO SCROLLAR, VOLTA AO TOPO
-   ========================================== */
+/* ==========================================
+     ABAS — SOME AO SCROLLAR, VOLTA AO TOPO
+     ========================================== */
 
-const categoriasNav = document.querySelector('.categorias-nav');
+  const categoriasNav = document.querySelector('.categorias-nav');
 
-window.addEventListener('scroll', function () {
-  if (window.scrollY <= 0) {
-    categoriasNav.classList.remove('oculta');
-  } else {
-    categoriasNav.classList.add('oculta');
+  if (categoriasNav) {
+    window.addEventListener('scroll', function () {
+      if (window.scrollY <= 0) {
+        categoriasNav.classList.remove('oculta');
+      } else {
+        categoriasNav.classList.add('oculta');
+      }
+    }, { passive: true });
   }
-}, { passive: true });
-
 
   /* ==========================================
      CARRINHO

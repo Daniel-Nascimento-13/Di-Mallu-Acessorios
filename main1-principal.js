@@ -52,7 +52,7 @@
   document.body.style.overflow = 'hidden';
 
   // PULA O INTRO SE VIER DE OUTRA PÁGINA
-  if (document.referrer && !document.referrer.includes('index1-principal.html')) {
+  if (document.referrer && !document.referrer.includes('index.html')) {
     intro.style.display = 'none';
     main.classList.add('visible');
     document.body.style.overflow = '';
@@ -72,7 +72,7 @@
     fallbackTimer = setTimeout(revealMain, VIDEO_DURATION_MS);
   }
 
-  
+
   /* ==========================================
      REVEAL — APARECE GRADATIVAMENTE AO SCROLL
      ========================================== */
