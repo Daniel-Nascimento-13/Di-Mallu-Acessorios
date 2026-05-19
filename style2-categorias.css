@@ -510,6 +510,9 @@ nav.scrolled .nav-hamburger span,
   letter-spacing: 0.08em;
   text-transform: uppercase;
   color: rgba(247, 243, 237, 0.25);
+  max-width: 100%;
+  text-align: center;
+  line-height: 1.6;
 }
 
 .cta-dot {
