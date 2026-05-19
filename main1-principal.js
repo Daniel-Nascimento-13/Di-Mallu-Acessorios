@@ -1,4 +1,3 @@
-
 /* ==========================================
    DI MALLU — LÓGICA DO SITE
    ========================================== */
@@ -90,11 +89,11 @@
       entries.forEach(function (entry) {
         if (entry.isIntersecting) {
           entry.target.classList.add('in');
-          observer.unobserve(entry.target); // OBSERVA SÓ UMA VEZ
+          observer.unobserve(entry.target);
         }
       });
     }, {
-      threshold: 0.08,                  // DISPARA CEDO — MELHOR PARA MOBILE
+      threshold: 0.08,
       rootMargin: '0px 0px -20px 0px'
     });
 
@@ -143,7 +142,7 @@
 
   // WHATSAPP — NÚMERO E MENSAGEM AUTOMÁTICA
   const WHATS_NUMERO = '5551999943011';
-  const WHATS_MSG    = 'Olá! Vim pelo site da Di Mallu e gostaria de conhecer as peças.';
+  const WHATS_MSG = 'Olá, tudo bem? \n\nVi o site da Di Mallu e amei as peças! \n\nGostaria de ver mais modelos de semijoias.';
   const WHATS_URL    = `https://wa.me/${WHATS_NUMERO}?text=${encodeURIComponent(WHATS_MSG)}`;
 
   const navWpp = document.querySelector('.nav-wpp');
@@ -202,9 +201,9 @@
     const dots  = document.querySelectorAll('.historia-dot');
     if (!track) return;
 
-    const total     = 3;
-    let atual       = 0;
-    let bloqueado   = false;
+    const total   = 3;
+    let atual     = 0;
+    let bloqueado = false;
 
     // CLONA OS SLIDES PARA CRIAR EFEITO DE LOOP
     Array.from(track.children).forEach(function (s) {
@@ -276,45 +275,6 @@
     item.className = 'marquee-item';
     item.innerHTML = `<span>${texto}</span><img src="./ARQUIVOS/simbolo-logo.png" alt="" aria-hidden="true" class="marquee-logo">`;
     marqueeTrack.appendChild(item);
-  });
-
-  // CARRINHO — ADICIONA / REMOVE PRODUTO E ATUALIZA BADGE
-  let carrinho          = [];
-  const btnCarrinho     = document.getElementById('btnVerCarrinho');
-  const badge           = document.getElementById('carrinhoBadge');
-
-  function atualizarBadge() {
-    badge.textContent = carrinho.length;
-  }
-
-  document.querySelectorAll('.produto-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      const adicionado = btn.dataset.adicionado === 'true';
-
-      if (!adicionado) {
-        carrinho.push({
-          nome:  btn.getAttribute('data-nome'),
-          preco: btn.getAttribute('data-preco'),
-          btn:   btn,
-        });
-        btn.dataset.adicionado = 'true';
-        btn.textContent        = '✓ 1';
-        btn.style.background   = '#C9A96E';
-        btn.style.color        = '#2C2215';
-      } else {
-        carrinho = carrinho.filter(function (p) { return p.btn !== btn; });
-        btn.dataset.adicionado = 'false';
-        btn.textContent        = '+ Adicionar';
-        btn.style.background   = '';
-        btn.style.color        = '';
-      }
-
-      atualizarBadge();
-    });
-  });
-
-  btnCarrinho.addEventListener('click', function () {
-    this.classList.toggle('ativo');
   });
 
 

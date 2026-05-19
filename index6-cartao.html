@@ -72,7 +72,7 @@
 
 
     <!-- ==========================================
-         PRODUTOS
+         PRODUTOS - CARTÃO PRESENTE 
          ========================================== -->
     <div class="categoria-grid-wrap">
 
@@ -112,9 +112,23 @@
     </div>
 
 
-  </div><!-- /main-content -->
+  </div>
+  
+  <!-- /MAIN-CONTENT -->
 
   <script src="main2-categorias.js"></script>
-
+  <script>
+    
+    /* WHATSAPP — MENSAGEM ESPECÍFICA DO CARTÃO PRESENTE */
+    const WHATS_CARTAO = 'Olá, tudo bem?\nVi o site da Di Mallu e amei as peças!\nGostaria de presentear alguém com o cartão presente.';
+    const btnCartao = document.getElementById('ctaWpp');
+    if (btnCartao) {
+      btnCartao.setAttribute('href', 'https://wa.me/5551999943011?text=' + encodeURIComponent(WHATS_CARTAO));
+      btnCartao.onclick = function () {
+        window.open('https://wa.me/5551999943011?text=' + encodeURIComponent(WHATS_CARTAO), '_blank');
+        return false;
+      };
+    }
+  </script>
 </body>
 </html>

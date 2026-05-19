@@ -774,10 +774,8 @@ nav.scrolled .nav-hamburger span,
   width: 18px;
   height: 18px;
   border-radius: 50%;
-  display: flex;
-  align-items: center;
-  padding-left: 2px;
-  justify-content: center;
+  display: grid;
+  place-items: center;
   flex-shrink: 0;
 }
 

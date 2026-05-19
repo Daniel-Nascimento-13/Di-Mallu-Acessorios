@@ -1,0 +1,317 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Di Mallu — Carrinho</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,800;1,400;1,700;1,800&family=Outfit:wght@300;400;500;700;800&display=swap" rel="stylesheet"/>
+  <link rel="stylesheet" href="style2-categorias.css"/>
+</head>
+<body>
+
+
+  <!-- ==========================================
+       CONTEÚDO PRINCIPAL
+       ========================================== -->
+  <div id="main-content" class="visible pagina-simples">
+
+
+    <!-- ==========================================
+         MENU PRINCIPAL
+         ========================================== -->
+    <nav id="navbar">
+
+      <!-- HAMBURGUER — ESQUERDA -->
+      <button class="nav-hamburger" id="hamburger" aria-label="Abrir menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+
+      <!-- LOGO — CENTRO -->
+      <a href="index.html" class="nav-logo" aria-label="Di Mallu — página inicial">
+        <img src="./ARQUIVOS/simbolo-logo.png" alt="Símbolo Di Mallu" class="nav-simbolo"/>
+      </a>
+
+      <!-- WHATSAPP — DIREITA -->
+      <a href="#" class="nav-wpp" id="navWpp" target="_blank" rel="noopener noreferrer" aria-label="Falar no WhatsApp">
+        <svg width="22" height="22" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+          <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+        </svg>
+      </a>
+
+      <!-- LINKS -->
+      <ul class="nav-links" id="nav-links">
+        <li><a href="index.html#hero"        class="nav-item">Início</a></li>
+        <li><a href="index2-aneis.html"      class="nav-item">Anéis</a></li>
+        <li><a href="index3-brincos.html"    class="nav-item">Brincos</a></li>
+        <li><a href="index4-colares.html"    class="nav-item">Colares</a></li>
+        <li><a href="index5-pulseiras.html"  class="nav-item">Pulseiras</a></li>
+        <li><a href="index6-cartao.html"     class="nav-item">Cartão presente</a></li>
+        <li><a href="index7-garantias.html"  class="nav-item">Garantias</a></li>
+        <li><a href="index.html#cta-final"   class="nav-item nav-cta">Fale conosco</a></li>
+      </ul>
+
+    </nav>
+
+
+    <!-- ==========================================
+         HERO DA CATEGORIA
+         ========================================== -->
+    <div class="categoria-hero">
+      <div class="eyebrow">
+        <div class="eyebrow-line"></div>
+        <span>Di Mallu Acessórios</span>
+      </div>
+      <h1 class="categoria-titulo">Meu<br/><em>carrinho.</em></h1>
+    </div>
+
+
+    <!-- ==========================================
+         LISTA DE PRODUTOS
+         ========================================== -->
+    <div class="categoria-grid-wrap">
+
+      <div class="categoria-label">
+        <div class="linha"></div>
+        <span>Resumo do pedido</span>
+        <div class="linha"></div>
+      </div>
+
+      <!-- ITENS -->
+      <div id="carrinho-lista" style="background: var(--branco); padding: 0 var(--px);"></div>
+
+      <!-- VAZIO -->
+      <div id="carrinho-vazio" style="display:none; background: var(--branco); padding: 3rem var(--px); text-align: center;">
+        <p style="font-family: var(--serif); font-style: italic; font-size: 1.1rem; color: var(--texto-medio);">Seu carrinho está vazio.</p>
+        <a href="index2-aneis.html" style="display:inline-block; margin-top: 1.5rem; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--verde); text-decoration: none;">← Ver peças</a>
+      </div>
+
+      <!-- TOTAL -->
+      <div id="carrinho-footer" style="display:none; background: var(--branco); padding: 1.5rem var(--px) 0; border-top: 1px solid #e8e4de;">
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1.5rem;">
+          <span style="font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--texto-medio);">Total</span>
+          <span id="carrinho-total" style="font-family: var(--serif); font-size: 1.2rem; font-style: italic; color: var(--verde); font-weight: 700;">R$ 0,00</span>
+        </div>
+      </div>
+
+      <!-- FORMULÁRIO -->
+      <div id="carrinho-form" style="display:none; background: var(--branco); padding: 0 var(--px) 2rem;">
+        <div style="border-top: 1px solid #e8e4de; padding-top: 1.5rem; display: flex; flex-direction: column; gap: 1rem;">
+
+          <!-- NOME -->
+          <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+            <label style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--texto-medio);">Seu nome</label>
+            <input id="form-nome" type="text" placeholder="Digite seu nome"
+              style="border: 1px solid #e8e4de; padding: 0.75rem; font-family: var(--sans); font-size: 0.85rem; color: var(--texto); outline: none; width: 100%;"/>
+          </div>
+
+          <!-- TIPO DE ENTREGA -->
+          <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+            <label style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--texto-medio);">Tipo de entrega</label>
+            <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 1px; background: var(--dourado);">
+              <button id="btn-entrega" onclick="selecionarEntrega('entrega')"
+                style="padding: 0.75rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border: none; cursor: pointer; background: var(--verde-dark); color: var(--branco); transition: background 0.2s;">
+                Entrega
+              </button>
+              <button id="btn-retirada" onclick="selecionarEntrega('retirada')"
+                style="padding: 0.75rem; font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em; text-transform: uppercase; border: none; cursor: pointer; background: var(--verde-dark); color: var(--branco); transition: background 0.2s;">
+                Retirada
+              </button>
+            </div>
+          </div>
+
+          <!-- CAMPOS DE ENTREGA -->
+          <div id="campos-entrega" style="display: none; flex-direction: column; gap: 1rem;">
+            <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+              <label style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--texto-medio);">CEP</label>
+              <input id="form-cep" type="text" placeholder="00000-000" maxlength="9"
+                style="border: 1px solid #e8e4de; padding: 0.75rem; font-family: var(--sans); font-size: 0.85rem; color: var(--texto); outline: none; width: 100%;"/>
+            </div>
+            <div style="display: flex; flex-direction: column; gap: 0.4rem;">
+              <label style="font-size: 0.7rem; font-weight: 700; letter-spacing: 0.15em; text-transform: uppercase; color: var(--texto-medio);">Endereço completo</label>
+              <input id="form-endereco" type="text" placeholder="Rua, número, bairro, cidade"
+                style="border: 1px solid #e8e4de; padding: 0.75rem; font-family: var(--sans); font-size: 0.85rem; color: var(--texto); outline: none; width: 100%;"/>
+            </div>
+          </div>
+
+          <!-- INFO RETIRADA -->
+          <div id="info-retirada" style="display: none; background: #f7f3ed; padding: 1rem; border-left: 2px solid var(--dourado);">
+            <p style="font-size: 0.8rem; font-weight: 300; color: var(--texto-medio); line-height: 1.7;">
+              <strong style="font-weight: 600; color: var(--texto);">Retirada no endereço:</strong><br/>
+              RUA DA LOJA, Nº — BAIRRO<br/>
+              CIDADE — ESTADO
+            </p>
+          </div>
+
+          <!-- BOTÃO ENVIAR -->
+          <button class="cta-wpp" id="btnPedirWpp">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true">
+              <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+            </svg>
+            Enviar pedido via WhatsApp
+          </button>
+
+        </div>
+      </div>
+
+    </div>
+
+
+    <!-- ==========================================
+         RODAPÉ
+         ========================================== -->
+    <div class="categoria-rodape">
+      <div class="garantia">
+        <span>Garantia</span>
+        <div class="cta-dot"></div>
+        <span>Compra segura</span>
+        <div class="cta-dot"></div>
+        <span>Envio nacional</span>
+      </div>
+      <span class="copy">© 2026 Di Mallu Acessórios · Todos os direitos reservados</span>
+    </div>
+
+
+  </div><!-- /main-content -->
+
+  <script src="main2-categorias.js"></script>
+  <script src="main3-carrinho.js"></script>
+  <script>
+    
+    /* ==========================================
+       CARRINHO — RENDERIZA E FORMULÁRIO
+       ========================================== */
+
+    const WHATS_NUMERO  = '5551999943011';
+    const ENDERECO_LOJA = 'RUA DA LOJA, Nº — BAIRRO, CIDADE — ESTADO';
+
+    let tipoEntrega = null;
+
+    // SELEÇÃO DE ENTREGA / RETIRADA
+    function selecionarEntrega(tipo) {
+      tipoEntrega = tipo;
+
+      document.getElementById('btn-entrega').style.background  = tipo === 'entrega'  ? '#C9A96E' : '#0F3D30';
+      document.getElementById('btn-entrega').style.color       = tipo === 'entrega'  ? '#2C2215' : '#fff';
+      document.getElementById('btn-retirada').style.background = tipo === 'retirada' ? '#C9A96E' : '#0F3D30';
+      document.getElementById('btn-retirada').style.color      = tipo === 'retirada' ? '#2C2215' : '#fff';
+
+      document.getElementById('campos-entrega').style.display = tipo === 'entrega'  ? 'flex'  : 'none';
+      document.getElementById('info-retirada').style.display  = tipo === 'retirada' ? 'block' : 'none';
+    }
+
+    document.addEventListener('DOMContentLoaded', function () {
+      const lista   = document.getElementById('carrinho-lista');
+      const vazio   = document.getElementById('carrinho-vazio');
+      const footer  = document.getElementById('carrinho-footer');
+      const form    = document.getElementById('carrinho-form');
+      const totalEl = document.getElementById('carrinho-total');
+      const btnWpp  = document.getElementById('btnPedirWpp');
+
+      function calcularTotal(carrinho) {
+        return carrinho.reduce(function (soma, p) {
+          const valor = parseFloat(p.preco.replace(',', '.')) || 0;
+          return soma + valor;
+        }, 0);
+      }
+
+      function formatarPreco(valor) {
+        return 'R$ ' + valor.toFixed(2).replace('.', ',');
+      }
+
+      function renderizar() {
+        const carrinho = window.CarrinhoDiMallu.lerCarrinho();
+        lista.innerHTML = '';
+
+        if (!carrinho.length) {
+          vazio.style.display  = 'block';
+          footer.style.display = 'none';
+          form.style.display   = 'none';
+          return;
+        }
+
+        vazio.style.display  = 'none';
+        footer.style.display = 'block';
+        form.style.display   = 'block';
+
+        carrinho.forEach(function (produto) {
+          const item = document.createElement('div');
+          item.style.cssText = 'display:flex; justify-content:space-between; align-items:center; padding:1rem 0; border-bottom:0.5px solid #e8e4de;';
+          item.innerHTML = `
+            <div>
+              <p style="font-family:var(--serif); font-size:0.95rem; font-style:italic; color:var(--texto); margin-bottom:0.2rem;">${produto.nome}</p>
+              <span style="font-size:0.82rem; font-weight:600; color:var(--verde);">R$ ${produto.preco}</span>
+            </div>
+            <button data-remover="${produto.nome}" style="background:none; border:none; font-size:0.7rem; font-weight:700; letter-spacing:0.12em; text-transform:uppercase; color:#aaa; cursor:pointer; padding:0.4rem;">Remover</button>
+          `;
+          lista.appendChild(item);
+        });
+
+        totalEl.textContent = formatarPreco(calcularTotal(carrinho));
+
+        // BOTÕES REMOVER
+        lista.querySelectorAll('[data-remover]').forEach(function (btn) {
+          btn.addEventListener('click', function () {
+            window.CarrinhoDiMallu.removerProduto(btn.getAttribute('data-remover'));
+            renderizar();
+          });
+        });
+      }
+
+      // BOTÃO WHATSAPP — VALIDA E MONTA MENSAGEM
+      btnWpp.addEventListener('click', function () {
+        const carrinho = window.CarrinhoDiMallu.lerCarrinho();
+        if (!carrinho.length) return;
+
+        const nome = document.getElementById('form-nome').value.trim();
+        if (!nome) {
+          alert('Por favor, informe seu nome.');
+          return;
+        }
+
+        if (!tipoEntrega) {
+          alert('Por favor, selecione o tipo de entrega.');
+          return;
+        }
+
+        let linhaEntrega = '';
+
+        if (tipoEntrega === 'entrega') {
+          const cep      = document.getElementById('form-cep').value.trim();
+          const endereco = document.getElementById('form-endereco').value.trim();
+          if (!cep || !endereco) {
+            alert('Por favor, informe o CEP e o endereço completo.');
+            return;
+          }
+          linhaEntrega = `* Envio para: (CEP: ${cep}) ${endereco}.`;
+        } else {
+          linhaEntrega = `* Retirada no endereço: ${ENDERECO_LOJA}`;
+        }
+
+        const itens = carrinho.map(function (p) {
+          return `• ${p.nome} - R$ ${p.preco}`;
+        }).join('\n');
+
+        const total = formatarPreco(calcularTotal(carrinho));
+
+        const msg = `Olá! Quero fechar meu pedido na Di Mallu:\n\nMe chamo ${nome}.\n\n*Meu Carrinho:*\n${itens}\n\n*Total: ${total} + frete*\n\n${linhaEntrega}`;
+
+        window.CarrinhoDiMallu.limparCarrinho();
+        window.open('https://wa.me/' + WHATS_NUMERO + '?text=' + encodeURIComponent(msg), '_blank');
+      });
+
+      // MÁSCARA CEP
+      document.getElementById('form-cep').addEventListener('input', function () {
+        let v = this.value.replace(/\D/g, '').slice(0, 8);
+        if (v.length > 5) v = v.slice(0, 5) + '-' + v.slice(5);
+        this.value = v;
+      });
+
+      renderizar();
+    });
+  </script>
+</body>
+</html>

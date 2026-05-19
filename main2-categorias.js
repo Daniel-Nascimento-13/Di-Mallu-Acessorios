@@ -1,4 +1,3 @@
-
 /* ==========================================
    DI MALLU — LÓGICA DAS PÁGINAS DE CATEGORIA
    ========================================== */
@@ -58,22 +57,14 @@
 
   // WHATSAPP — NÚMERO E MENSAGEM AUTOMÁTICA
   const WHATS_NUMERO = '5551999943011';
-  const WHATS_MSG    = 'Olá! Vim pelo site da Di Mallu e gostaria de conhecer as peças.';
+  const WHATS_MSG = 'Olá, tudo bem? \n\nVi o site da Di Mallu e amei as peças! \n\nGostaria de ver mais modelos de semijoias.';
   const WHATS_URL    = `https://wa.me/${WHATS_NUMERO}?text=${encodeURIComponent(WHATS_MSG)}`;
 
   const navWpp = document.querySelector('.nav-wpp');
   if (navWpp) navWpp.setAttribute('href', WHATS_URL);
 
-  const ctaWpp = document.getElementById('ctaWpp');
-  if (ctaWpp) {
-    ctaWpp.setAttribute('href', WHATS_URL);
-    ctaWpp.addEventListener('click', function () {
-      window.open(WHATS_URL, '_blank');
-    });
-  }
 
-
-/* ==========================================
+  /* ==========================================
      ABAS — SOME AO SCROLLAR, VOLTA AO TOPO
      ========================================== */
 
@@ -87,50 +78,6 @@
         categoriasNav.classList.add('oculta');
       }
     }, { passive: true });
-  }
-
-  /* ==========================================
-     CARRINHO
-     ========================================== */
-
-  let carrinho      = [];
-  const btnCarrinho = document.getElementById('btnVerCarrinho');
-  const badge       = document.getElementById('carrinhoBadge');
-
-  function atualizarBadge() {
-    if (badge) badge.textContent = carrinho.length;
-  }
-
-  document.querySelectorAll('.produto-btn').forEach(function (btn) {
-    btn.addEventListener('click', function () {
-      const adicionado = btn.dataset.adicionado === 'true';
-
-      if (!adicionado) {
-        carrinho.push({
-          nome:  btn.getAttribute('data-nome'),
-          preco: btn.getAttribute('data-preco'),
-          btn:   btn,
-        });
-        btn.dataset.adicionado = 'true';
-        btn.textContent        = '✓ 1';
-        btn.style.background   = '#C9A96E';
-        btn.style.color        = '#2C2215';
-      } else {
-        carrinho = carrinho.filter(function (p) { return p.btn !== btn; });
-        btn.dataset.adicionado = 'false';
-        btn.textContent        = '+ Adicionar';
-        btn.style.background   = '';
-        btn.style.color        = '';
-      }
-
-      atualizarBadge();
-    });
-  });
-
-  if (btnCarrinho) {
-    btnCarrinho.addEventListener('click', function () {
-      this.classList.toggle('ativo');
-    });
   }
 
 
