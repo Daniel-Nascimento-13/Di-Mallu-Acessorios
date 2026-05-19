@@ -331,16 +331,16 @@ nav.scrolled .nav-hamburger span,
 }
 
 .letra-brilho .star-grande {
-  top: 20px;
-  right: -12px;
+  top: -4px;
+  right: -14px;
   width: 18px;
   height: 18px;
   animation: starGrande 3.5s ease-in-out 2s infinite;
 }
 
 .letra-brilho .star-pequena {
-  top: 30px;
-  right: -16px;
+  top: 8px;
+  right: -18px;
   width: 9px;
   height: 9px;
   animation: starPequena 3.5s ease-in-out 2.2s infinite;
@@ -943,5 +943,4 @@ nav.scrolled .nav-hamburger span,
   #hero         { justify-content: flex-start; }
   .hero-content { max-width: 640px; }
   .hero-sub     { max-width: 480px; }
-
 }
