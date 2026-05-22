@@ -1,3 +1,4 @@
+
 /* ==========================================
    DI MALLU — CARRINHO COMPARTILHADO
    ========================================== */
@@ -47,6 +48,21 @@
 
 
   /* ==========================================
+   CARRINHO — FECHA MENU AO NAVEGAR
+   ========================================== */
+
+function fecharMenu() {
+  const navLinks  = document.getElementById('nav-links');
+  const hamburger = document.getElementById('hamburger');
+  if (!navLinks || !hamburger) return;
+
+  navLinks.classList.remove('open');
+  hamburger.classList.remove('open');
+  hamburger.setAttribute('aria-expanded', false);
+  document.body.style.overflow = '';
+}
+
+  /* ==========================================
      BADGE — ATUALIZA TODOS OS BOTÕES DA PÁGINA
      ========================================== */
 
@@ -63,60 +79,72 @@
      ========================================== */
 
   function iniciarBotoesProduto() {
-    const carrinho = lerCarrinho();
+  const carrinho = lerCarrinho();
 
-    document.querySelectorAll('.produto-btn').forEach(function (btn) {
+  document.querySelectorAll('.produto-btn').forEach(function (btn) {
 
-      // EVITA REGISTRAR O MESMO BOTÃO DUAS VEZES
-      if (btn.dataset.carrinhoIniciado === 'true') return;
-      btn.dataset.carrinhoIniciado = 'true';
+    // EVITA REGISTRAR O MESMO BOTÃO DUAS VEZES
+    if (btn.dataset.carrinhoIniciado === 'true') return;
+    btn.dataset.carrinhoIniciado = 'true';
 
-      const nome  = btn.getAttribute('data-nome');
-      const preco = btn.getAttribute('data-preco');
+    const nome  = btn.getAttribute('data-nome');
+    const preco = btn.getAttribute('data-preco');
 
-      // MARCA OS JÁ ADICIONADOS AO CARREGAR A PÁGINA
-      const jaAdicionado = carrinho.find(function (p) { return p.nome === nome; });
-      if (jaAdicionado) {
+    // ESGOTADO — ABRE WHATSAPP E IGNORA CARRINHO
+    if (btn.dataset.esgotado === 'true') {
+      const WHATS_ESGOTADO = 'https://wa.me/5551999943011?text=' + encodeURIComponent(
+        'Olá! Vi que a peça *' + nome + '* está esgotada no site.\nGostaria de saber quando terá reposição.'
+      );
+      btn.addEventListener('click', function () {
+        window.open(WHATS_ESGOTADO, '_blank');
+      });
+      return;
+    }
+
+    // MARCA OS JÁ ADICIONADOS AO CARREGAR A PÁGINA
+    const jaAdicionado = carrinho.find(function (p) { return p.nome === nome; });
+    if (jaAdicionado) {
+      btn.dataset.adicionado = 'true';
+      btn.textContent        = '✓ 1';
+      btn.style.background   = '#C9A96E';
+      btn.style.color        = '#2C2215';
+    }
+
+    btn.addEventListener('click', function () {
+      const adicionado = btn.dataset.adicionado === 'true';
+
+      if (!adicionado) {
+        adicionarProduto(nome, preco);
         btn.dataset.adicionado = 'true';
         btn.textContent        = '✓ 1';
         btn.style.background   = '#C9A96E';
         btn.style.color        = '#2C2215';
+      } else {
+        removerProduto(nome);
+        btn.dataset.adicionado = 'false';
+        btn.textContent        = '+ Adicionar';
+        btn.style.background   = '';
+        btn.style.color        = '';
       }
-
-      btn.addEventListener('click', function () {
-        const adicionado = btn.dataset.adicionado === 'true';
-
-        if (!adicionado) {
-          adicionarProduto(nome, preco);
-          btn.dataset.adicionado = 'true';
-          btn.textContent        = '✓ 1';
-          btn.style.background   = '#C9A96E';
-          btn.style.color        = '#2C2215';
-        } else {
-          removerProduto(nome);
-          btn.dataset.adicionado = 'false';
-          btn.textContent        = '+ Adicionar';
-          btn.style.background   = '';
-          btn.style.color        = '';
-        }
-      });
     });
-  }
+  });
+}
 
 
   /* ==========================================
      BOTÃO VER CARRINHO — ABRE A PÁGINA
      ========================================== */
 
-  function iniciarBtnVerCarrinho() {
-    const btn = document.getElementById('btnVerCarrinho');
-    if (!btn || btn.dataset.carrinhoIniciado === 'true') return;
-    btn.dataset.carrinhoIniciado = 'true';
+ function iniciarBtnVerCarrinho() {
+  const btn = document.getElementById('btnVerCarrinho');
+  if (!btn || btn.dataset.carrinhoIniciado === 'true') return;
+  btn.dataset.carrinhoIniciado = 'true';
 
-    btn.addEventListener('click', function () {
-      window.location.href = 'index8-carrinho.html';
-    });
-  }
+  btn.addEventListener('click', function () {
+    fecharMenu(); // FECHA O MENU ANTES DE NAVEGAR
+    window.location.href = 'index8-carrinho.html';
+  });
+}
 
 
   /* ==========================================
@@ -130,7 +158,9 @@
   }
 
   // INIT NORMAL — PÁGINAS DE CATEGORIA (SEM INTRO)
-  document.addEventListener('DOMContentLoaded', init);
+  if (!document.getElementById('intro')) {
+    document.addEventListener('DOMContentLoaded', init);
+  }
 
   // EXPÕE FUNÇÕES GLOBAIS
   window.CarrinhoDiMallu = {

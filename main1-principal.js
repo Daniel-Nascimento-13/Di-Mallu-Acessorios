@@ -1,3 +1,4 @@
+
 /* ==========================================
    DI MALLU — LÓGICA DO SITE
    ========================================== */
@@ -29,47 +30,55 @@
 
   // GARANTE QUE O REVEAL SÓ EXECUTA UMA VEZ
   function revealMain() {
-    if (revealed) return;
-    revealed = true;
+  if (revealed) return;
+  revealed = true;
 
-    clearTimeout(fallbackTimer);
+  clearTimeout(fallbackTimer);
 
-    intro.classList.add('fade-out');
-    main.classList.add('visible');
-    document.body.style.overflow = '';
+  intro.classList.add('fade-out');
+  main.classList.add('visible');
+  document.body.style.overflow = '';
 
-    // SCROLL IMEDIATO — SEM ANIMAÇÃO
-    window.scrollTo({ top: 0, behavior: 'instant' });
+  window.scrollTo({ top: 0, behavior: 'instant' });
 
-    setTimeout(function () {
-      initReveal();
-      initDivisor();
-    }, 300);
-  }
+  setTimeout(function () {
+    initReveal();
+    initDivisor();
+    if (window.CarrinhoDiMallu) window.CarrinhoDiMallu.init(); // CARRINHO APÓS REVEAL
+  }, 300);
+}
 
   // BLOQUEIA SCROLL ENQUANTO O INTRO TOCA
   document.body.style.overflow = 'hidden';
 
-  // PULA O INTRO SE VIER DE OUTRA PÁGINA
-  if (document.referrer && !document.referrer.includes('index.html')) {
-    intro.style.display = 'none';
-    main.classList.add('visible');
-    document.body.style.overflow = '';
-    revealed = true;
-    setTimeout(function () {
-      document.getElementById('hero').scrollIntoView({ behavior: 'instant' });
-      initReveal();
-      initDivisor();
-    }, 50);
-  } else {
-    video.addEventListener('ended', revealMain);
-    video.addEventListener('error', revealMain);
-    video.addEventListener('canplay', function () {
-      if (video.paused && !video.autoplay) revealMain();
-    });
-    const VIDEO_DURATION_MS = 8000;
-    fallbackTimer = setTimeout(revealMain, VIDEO_DURATION_MS);
-  }
+ // PULA O INTRO SE VIER DE OUTRA PÁGINA
+const referrerPath = document.referrer ? new URL(document.referrer).pathname : '';
+const paginaRaiz   = referrerPath === '/' || referrerPath.endsWith('index.html');
+
+if (document.referrer && !paginaRaiz) {
+  intro.style.display = 'none';
+  main.classList.add('visible');
+  document.body.style.overflow = '';
+  revealed = true;
+  setTimeout(function () {
+    document.getElementById('hero').scrollIntoView({ behavior: 'instant' });
+    initReveal();
+    initDivisor();
+    if (window.CarrinhoDiMallu) window.CarrinhoDiMallu.init(); // CARRINHO APÓS SKIP
+  }, 50);
+} else {
+  video.addEventListener('ended', revealMain);
+  video.addEventListener('error', revealMain);
+  video.addEventListener('canplay', function () {
+    if (video.paused && !video.autoplay) revealMain();
+  });
+  video.addEventListener('loadedmetadata', function () {
+    clearTimeout(fallbackTimer);
+    const duracao  = video.duration > 0 ? video.duration * 1000 + 500 : 12000;
+    fallbackTimer  = setTimeout(revealMain, duracao);
+  });
+  fallbackTimer = setTimeout(revealMain, 12000); // FALLBACK SE METADATA NÃO CARREGAR
+}
 
 
   /* ==========================================
@@ -117,7 +126,7 @@
     hamburger.setAttribute('aria-expanded', isOpen);
     document.body.style.overflow = isOpen ? 'hidden' : '';
 
-    if (isOpen) window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (isOpen) window.scrollTo({ top: 0, behavior: 'instant' });
   });
 
   // FECHA AO CLICAR EM UM ITEM

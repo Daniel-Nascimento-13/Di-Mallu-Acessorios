@@ -1,3 +1,4 @@
+
 /* ==========================================
    DI MALLU — LÓGICA DAS PÁGINAS DE CATEGORIA
    ========================================== */
@@ -32,7 +33,7 @@
     hamburger.setAttribute('aria-expanded', isOpen);
     document.body.style.overflow = isOpen ? 'hidden' : '';
 
-    if (isOpen) window.scrollTo({ top: 0, behavior: 'smooth' });
+    if (isOpen) window.scrollTo({ top: 0, behavior: 'instant' });
   });
 
   // FECHA AO CLICAR EM UM ITEM
